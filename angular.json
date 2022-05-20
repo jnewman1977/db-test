@@ -3,6 +3,7 @@
   "version": 2,
   "projects": {
     "db-test": "apps/db-test",
-    "db-test-e2e": "apps/db-test-e2e"
+    "db-test-e2e": "apps/db-test-e2e",
+    "jha-indexed-db": "libs/jha-indexed-db"
   }
 }
