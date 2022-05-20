@@ -1,1 +1,6 @@
-<db-test-nx-welcome></db-test-nx-welcome>
+
+<ng-container *ngIf="data">
+  <div *ngFor="let item of data | async">
+    <div>{{item._id}} : {{item.name}}</div>
+  </div>
+</ng-container>

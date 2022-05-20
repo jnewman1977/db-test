@@ -77,14 +77,14 @@ export class JhaIndexedDbService {
     return Promise.resolve(store);
   }
 
-  public async get<T>(dbName: string, dbVer: number, storeName: string, keyValue: IDBValidKey | IDBKeyRange): Promise<T | null> {
+  public async get<T>(dbName: string, dbVer: number, storeName: string, keyValue?: IDBValidKey | IDBKeyRange): Promise<T | null> {
     const store = await this.getObjectStoreTransaction(dbName, dbVer, storeName, 'readonly');
     return new Promise((resolve, reject) => {
       if (!store) {
         // shouldn't get here because getting a non-existent store throws.
         return resolve(null);
       }
-      const request = store.get(keyValue) as IDBRequest<T>;
+      const request = (keyValue ? store.get(keyValue) : store.getAll()) as IDBRequest<T>;
       request.onsuccess = function () {
         return resolve(request.result);
       }

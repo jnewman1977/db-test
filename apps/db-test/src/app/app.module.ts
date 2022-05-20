@@ -1,17 +1,17 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
+import {CommonModule} from "@angular/common";
 
 import {AppComponent} from './app.component';
-import {NxWelcomeComponent} from './nx-welcome.component';
 import {JhaIndexedDbModule} from "@uid/indexed-db";
+
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NxWelcomeComponent
+    AppComponent
   ],
-  imports: [BrowserModule],
-  providers: [JhaIndexedDbModule, { provide: 'Window', useValue: window }],
+  imports: [BrowserModule, CommonModule],
+  providers: [JhaIndexedDbModule, {provide: 'Window', useValue: window}],
   bootstrap: [AppComponent],
 })
 export class AppModule {
