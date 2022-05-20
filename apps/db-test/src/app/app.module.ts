@@ -11,7 +11,7 @@ import {JhaIndexedDbModule} from "@uid/indexed-db";
     NxWelcomeComponent
   ],
   imports: [BrowserModule],
-  providers: [JhaIndexedDbModule],
+  providers: [JhaIndexedDbModule, { provide: 'Window', useValue: window }],
   bootstrap: [AppComponent],
 })
 export class AppModule {

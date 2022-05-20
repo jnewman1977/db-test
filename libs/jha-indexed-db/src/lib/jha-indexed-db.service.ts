@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 
 interface IWindow {
   indexedDB: unknown;
@@ -17,20 +17,18 @@ export class JhaIndexedDbService {
   private readonly dbFactory: IDBFactory;
   public isInitialized = false;
 
-  constructor() {
-    this.dbFactory = JhaIndexedDbService.setupIndexedDb();
+  constructor(@Inject('Window') private currentWindow: Window) {
+    this.dbFactory = this.setupIndexedDb();
     if (!this.dbFactory) {
       console.error('IndexedDB not available');
       return;
     }
   }
 
-  static setupIndexedDb(): IDBFactory {
-    const database =
-      (window as unknown as IWindow).indexedDB ||
-      (window as unknown as IWindow).mozIndexedDB ||
-      (window as unknown as IWindow).webkitIndexedDB;
-    return database as IDBFactory;
+  setupIndexedDb(): IDBFactory {
+    return this.currentWindow.indexedDB ||
+      (this.currentWindow as unknown as IWindow).mozIndexedDB ||
+      (this.currentWindow as unknown as IWindow).webkitIndexedDB;
   }
 
   // Adding a new dbStore requires bumping dbVer and utilizing the onUpgradeNeeded callback to add the new store(s).
