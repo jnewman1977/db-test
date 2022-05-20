@@ -1,29 +1,29 @@
 {
   "projectType": "library",
-  "sourceRoot": "libs/libs/jha-indexed-db/src",
+  "sourceRoot": "libs/jha-indexed-db/src",
   "prefix": "db-test",
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/libs/jha-indexed-db"],
+      "outputs": ["dist/libs/jha-indexed-db"],
       "options": {
-        "project": "libs/libs/jha-indexed-db/ng-package.json"
+        "project": "libs/jha-indexed-db/ng-package.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "libs/libs/jha-indexed-db/tsconfig.lib.prod.json"
+          "tsConfig": "libs/jha-indexed-db/tsconfig.lib.prod.json"
         },
         "development": {
-          "tsConfig": "libs/libs/jha-indexed-db/tsconfig.lib.json"
+          "tsConfig": "libs/jha-indexed-db/tsconfig.lib.json"
         }
       },
       "defaultConfiguration": "production"
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/libs/jha-indexed-db"],
+      "outputs": ["coverage/libs/jha-indexed-db"],
       "options": {
-        "jestConfig": "libs/libs/jha-indexed-db/jest.config.ts",
+        "jestConfig": "libs/jha-indexed-db/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -31,8 +31,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/libs/jha-indexed-db/**/*.ts",
-          "libs/libs/jha-indexed-db/**/*.html"
+          "libs/jha-indexed-db/**/*.ts",
+          "libs/jha-indexed-db/**/*.html"
         ]
       }
     }

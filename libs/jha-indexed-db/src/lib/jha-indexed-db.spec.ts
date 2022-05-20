@@ -1,4 +1,4 @@
-import {JhaIndexedDbService} from "@uid/indexed-db";
+import {JhaIndexedDbService} from "./jha-indexed-db.service";
 import SpyInstance = jest.SpyInstance;
 
 describe('JhaIndexedDbService', () => {
@@ -13,7 +13,7 @@ describe('JhaIndexedDbService', () => {
   });
 
   it('should open the db', async () => {
-    let windowInstance = windowSpy.mock.instances[0];
+    const windowInstance = windowSpy.mock.instances[0];
     const service = new JhaIndexedDbService(windowInstance);
     const db = await service.open('testdb', 1);
     expect(db).toBeTruthy();

@@ -24,14 +24,18 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    // console.log('%cAppComponent => ngOnInit', 'color:#00ff00');
+    console.log('%cAppComponent => ngOnInit', 'color:#00ff00');
 
-    // const record: IRecord = { name: 'testing 123' };
-    // const result = await this.dbService.add(this.dbName, this.dbVer, this.storeName, record);
+    await this.dbService.open(this.dbName, this.dbVer, db => {
+      const store = db.createObjectStore(this.storeName, { keyPath: "_id", autoIncrement: true});
+      store.createIndex("pk_id", "_id", { unique: true });
+    });
 
-    const dataResult = await this.dbService.get<IRecord[]>(this.dbName, this.dbVer, this.storeName);
-    // console.log(dataResult);
+    // await this.dbService.add<IRecord>('Database2', 1, "Table1", { name: 'First Record'});
 
-    this.data = of(dataResult);
+    const queryResult = await this.dbService.get<IRecord[]>(
+      this.dbName, this.dbVer, this.storeName);
+
+    this.data = of(queryResult);
   }
 }
