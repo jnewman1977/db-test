@@ -1,6 +1,16 @@
-
-<ng-container *ngIf="data">
-  <div *ngFor="let item of data | async">
-    <div>{{item._id}} : {{item.name}}</div>
+<div todo-list *ngIf="todoItems$" fxLayout="column">
+  <h2>Todos:</h2>
+  <div fxLayout="row" fxLayoutAlign="space-between stretch">
+    <input type="text" name="newTodo" #newTodo />
+    <button name="addTodo" (click)="addTodo(newTodo.value)">Add</button>
   </div>
-</ng-container>
+
+
+  <div *ngFor="let item of todoItems$ | async" fxLayout="row" fxLayoutAlign="space-between stretch">
+    <div [ngClass]="item.done ? 'done' : ''" fxFlex>{{item.title}}</div>
+    <input type="checkbox" name="done"
+           [(ngModel)]="item.done"
+           (change)="changeDone(item, $event)"/>
+    <button (click)="removeTodo(item)">Remove</button>
+  </div>
+</div>

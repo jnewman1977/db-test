@@ -1,11 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {JhaIndexedDbService} from '@uid/indexed-db';
-import {concat, from, map, Observable, of} from "rxjs";
-
-interface IRecord {
-  _id?: number;
-  name: string;
-}
+import { liveQuery } from "dexie";
+import {AppDB, TodoItem} from "@uid/indexed-db";
 
 @Component({
   selector: 'db-test-root',
@@ -13,29 +8,33 @@ interface IRecord {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'db-test';
-  dbName = 'Database1';
-  dbVer = 2;
-  storeName = 'test';
 
-  public data: Observable<IRecord[] | null> | null = null;
+  todoItems$ = liveQuery(() => this.listTodoItems());
 
-  constructor(private dbService: JhaIndexedDbService) {
+  constructor(private db: AppDB) {
   }
 
   async ngOnInit(): Promise<void> {
-    console.log('%cAppComponent => ngOnInit', 'color:#00ff00');
+    console.log('OnInit');
 
-    await this.dbService.open(this.dbName, this.dbVer, db => {
-      const store = db.createObjectStore(this.storeName, { keyPath: "_id", autoIncrement: true});
-      store.createIndex("pk_id", "_id", { unique: true });
-    });
+    // await this.db.resetDatabase();
+    // await this.db.populate();
+  }
 
-    // await this.dbService.add<IRecord>('Database2', 1, "Table1", { name: 'First Record'});
+  async listTodoItems(): Promise<TodoItem[]> {
+    return this.db.todoItems.toArray();
+  }
 
-    const queryResult = await this.dbService.get<IRecord[]>(
-      this.dbName, this.dbVer, this.storeName);
+  async changeDone(item: TodoItem, $event: Event): Promise<number> {
+    return this.db.todoItems
+      .update(item, {done: item.done});
+  }
 
-    this.data = of(queryResult);
+  async addTodo(value: string): Promise<number> {
+    return this.db.todoItems.add({ title: value});
+  }
+
+  async removeTodo(item: TodoItem): Promise<void> {
+    return this.db.todoItems.delete(<number>item.id);
   }
 }
