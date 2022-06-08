@@ -1,4 +1,5 @@
 import Dexie, {DexieOptions, Table} from 'dexie';
+import {Inject, Injectable} from "@angular/core";
 
 export interface AppDbOptions {
   dbName: string;
@@ -11,10 +12,13 @@ export interface TodoItem {
   done?: boolean;
 }
 
+@Injectable({
+  providedIn: 'root'
+})
 export class AppDB extends Dexie {
   todoItems!: Table<TodoItem, number>;
 
-  constructor(options?: AppDbOptions) {
+  constructor(@Inject('DB_OPTIONS') options?: AppDbOptions) {
     if (options) {
       super(options.dbName, options.dexieOptions);
     } else {

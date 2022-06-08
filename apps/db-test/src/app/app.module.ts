@@ -5,8 +5,7 @@ import {FormsModule} from "@angular/forms";
 import {FlexLayoutModule} from "@angular/flex-layout";
 
 import {AppComponent} from './app.component';
-import {AppDB} from "@uid/indexed-db";
-import Dexie from "dexie";
+import {JhaIndexedDbModule} from "@uid/indexed-db";
 
 @NgModule({
   declarations: [
@@ -16,10 +15,11 @@ import Dexie from "dexie";
     BrowserModule,
     CommonModule,
     FormsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    JhaIndexedDbModule
   ],
   providers: [
-    {provide: AppDB, useValue: new AppDB({ dbName: 'test-db' })}
+    {provide: 'DB_OPTIONS', useValue: { dbName: 'test-db' }}
   ],
   bootstrap: [AppComponent],
 })

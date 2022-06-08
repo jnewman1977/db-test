@@ -11,14 +11,12 @@ describe('AppDB', () => {
     expect(appDb).toBeDefined();
 
     await appDb.resetDatabase();
-    await appDb.populate();
 
     expect(appDb.todoItems).toBeDefined();
   });
 
   it('can get the first item', async () => {
     await appDb.resetDatabase();
-    await appDb.populate();
 
     appDb.todoItems.get(1).then(item => expect(item).toBeDefined());
     appDb.todoItems.get(1).then(item => expect(item?.id).toEqual(1));

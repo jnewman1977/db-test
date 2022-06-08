@@ -5,7 +5,7 @@ import {AppDB, TodoItem} from "@uid/indexed-db";
 @Component({
   selector: 'db-test-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
 
@@ -15,10 +15,7 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    console.log('OnInit');
-
     // await this.db.resetDatabase();
-    // await this.db.populate();
   }
 
   async listTodoItems(): Promise<TodoItem[]> {
