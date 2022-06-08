@@ -1,4 +1,9 @@
-import Dexie, { Table } from 'dexie';
+import Dexie, {DexieOptions, Table} from 'dexie';
+
+export interface AppDbOptions {
+  dbName: string;
+  dexieOptions?: DexieOptions;
+}
 
 export interface TodoItem {
   id?: number;
@@ -9,16 +14,22 @@ export interface TodoItem {
 export class AppDB extends Dexie {
   todoItems!: Table<TodoItem, number>;
 
-  constructor() {
-    super('ngdexieliveQuery');
+  constructor(options?: AppDbOptions) {
+    if (options) {
+      super(options.dbName, options.dexieOptions);
+    } else {
+      super('ngdexieliveQuery');
+    }
+
     this.version(1).stores({
       todoItems: '++id, title, done',
     });
+
     this.on('populate', () => this.populate());
   }
 
   async populate() {
-    await db.todoItems.bulkAdd([
+    await this.todoItems.bulkAdd([
       {
         title: 'Feed the birds',
       },
@@ -32,11 +43,9 @@ export class AppDB extends Dexie {
   }
 
   async resetDatabase() {
-    await db.transaction('rw', 'todoItems', () => {
+    await this.transaction('rw', 'todoItems', () => {
       this.todoItems.clear();
       this.populate();
     });
   }
 }
-
-export const db = new AppDB();

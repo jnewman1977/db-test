@@ -6,6 +6,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 
 import {AppComponent} from './app.component';
 import {AppDB} from "@uid/indexed-db";
+import Dexie from "dexie";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,9 @@ import {AppDB} from "@uid/indexed-db";
     FormsModule,
     FlexLayoutModule
   ],
-  providers: [{provide: AppDB, useValue: new AppDB()}],
+  providers: [
+    {provide: AppDB, useValue: new AppDB({ dbName: 'test-db' })}
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {
